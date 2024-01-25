@@ -96,7 +96,7 @@ func regularFile(filename string) {
 	defer file.Close()
 
 	var contentByte = make([]byte, MAX_BYTES_TO_READ)
-
+	print(contentByte)
 	numByte, _ := file.Read(contentByte)
 	contentByte = contentByte[:numByte]
 
@@ -118,6 +118,9 @@ func regularFile(filename string) {
 	case lenb > 16 &&
 		(HasPrefix(contentByte, "GIF87a") || HasPrefix(contentByte, "GIF89a")):
 		print("GIF image data")
+	case lenb > 16 &&
+		(HasPrefix(contentByte, "\x00\x00\x00$ftypheic")) || (HasPrefix(contentByte, "\x00\x00\x00\x18ftypmif1")):
+		print("HEIC image data")
 	case lenb > 32 && HasPrefix(contentByte, "\xff\xd8"):
 		print("JPEG / jpg image data")
 	case lenb > 8 && HasPrefix(contentByte, "\xca\xfe\xba\xbe"):
@@ -178,7 +181,7 @@ func regularFile(filename string) {
 		(HasPrefix(contentByte, "\x00\x00\x00\x20\x66\x74\x79\x70") || HasPrefix(contentByte, "\x00\x00\x00\x18\x66\x74\x79\x70") || HasPrefix(contentByte, "\x00\x00\x00\x14\x66\x74\x79\x70")):
 		print("MP4 video file")
 	case lenb > 16 &&
-		(HasPrefix(contentByte, "\x52\x61\x72\x21\x1A\x07\x01\x00")):
+		(HasPrefix(contentByte, "\x52\x61\x72\x21\x1A\x07\x01\x00")) || (HasPrefix(contentByte, "\x52\x61\x72\x21\x1A\x07\x00")):
 		print("RAR archive data")
 	case lenb > 16 &&
 		(HasPrefix(contentByte, "\x37\x7A\xBC\xAF\x27\x1C")):

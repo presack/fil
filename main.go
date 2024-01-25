@@ -96,7 +96,6 @@ func regularFile(filename string) {
 	defer file.Close()
 
 	var contentByte = make([]byte, MAX_BYTES_TO_READ)
-	print(contentByte)
 	numByte, _ := file.Read(contentByte)
 	contentByte = contentByte[:numByte]
 
